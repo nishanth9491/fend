@@ -1,0 +1,79 @@
+#implement{
+    min-height: calc(100vh-4rem);
+    width: 100vw;
+    max-width: 60rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    background-color: rgb(255, 255, 255);
+    margin: auto;
+    border-radius: 5rem;
+   
+}
+
+.implementText{
+    margin-top: 3rem;
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 2rem;
+}
+.taskInput
+{
+    color: black;
+    border: 3px solid black;
+}
+
+.sideCar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+.dotH{
+    font-size: medium;
+  
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: rgb(0, 0, 0);
+    border-radius: 1rem;
+}
+.lineH{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10rem; 
+    
+    width: 0.2rem;
+    height: 5rem;
+    background-color: rgb(255, 92, 92);
+}
+.dotH>p{
+    position: relative;
+    top: -10px;
+    left: 1rem;
+    font-size: 1rem ;
+    font-weight: 700;
+}
+.lineH>p{
+    position: relative;
+
+    left: 3rem;
+    font-size: 1rem;
+    color: rgb(250, 100, 74);
+
+}
+
+.calendr{
+    height: 70vh;
+}
+
+.sideCar{
+    width: 10rem;
+    height: 20rem;
+}
+
+
+

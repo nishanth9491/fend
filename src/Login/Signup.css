@@ -1,0 +1,18 @@
+.Main{
+    background-color: rgb(17, 17, 17);
+}
+.cutout{
+    border-radius: 1rem;
+}
+.btn-success{
+    
+    background-color: rgb(39, 39, 39);
+}
+.btn-success:hover,.btn-success:active{
+    background-color: rgb(253, 253, 253);
+    color: black;
+    
+}
+.innermain{
+    background-color: azure;
+}

@@ -1,0 +1,12 @@
+#view{
+    overflow: hidden;
+    width: 100vw;
+    max-width: 61rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    margin: auto;
+}
+
