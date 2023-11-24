@@ -1,94 +1,79 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-scroll";
-import "../Today/today.css";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import Implement from "../Calendar/implement";
+import "../Today/today.css";
 
 const Today = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const dotElements = document.querySelectorAll(".dot");
-    dotElements.forEach((dot) => {
-      const nValue = dot.getAttribute("data-n");
-      dot.setAttribute("data-content", nValue + "_____");
-    });
-    console.log("present");
-
-    const lineElements = document.querySelectorAll(".line");
-
-    lineElements.forEach((line) => {
-      const nValue = line.getAttribute("data-n");
-
-      line.setAttribute("data-content", nValue);
-    });
-  }, []);
-
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [sortedArr, setSortedArr] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("https://bend1.onrender.com/studentRoute/update-student/" + id)
-      .then((res) => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          `https://bend1.onrender.com/studentRoute/update-student/${id}`
+        );
         if (res.status === 200) {
           const today = new Date().toDateString();
           const tasksForToday = res.data.task.filter(
             (task) => task.TaskDate === today
           );
 
-          // Sort the array by task time
           const sortedTasks = tasksForToday
-            .filter(
-              (task) => task.TaskTime !== undefined && task.TaskTime !== null
-            ) // Filter out tasks without valid taskTime
-            .sort((a, b) => {
-              // Convert taskTime to strings before comparison
-              const timeA = String(a.TaskTime);
-              const timeB = String(b.TaskTime);
-
-              return timeA.localeCompare(timeB);
-            });
+            .filter((task) => task.TaskTime != null)
+            .sort((a, b) =>
+              String(a.TaskTime).localeCompare(String(b.TaskTime))
+            );
 
           setSortedArr(sortedTasks);
-          console.log(res.data.task);
+          setLoading(false);
         } else {
-          console.error("Failed to fetch tasks:", res.status);
+          setError(`Failed to fetch tasks: ${res.status}`);
+          setLoading(false);
         }
-      })
-      .catch((err) => console.error("Error fetching tasks:", err));
+      } catch (err) {
+        setError(`Error fetching tasks: ${err.message}`);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [id]);
 
-  const navigate = useNavigate();
-
-  const handleDeleteTask = (taskId) => {
-    axios
-      .delete(
-        "https://bend1.onrender.com/studentRoute/delete-task/" +
-          id +
-          "/" +
-          taskId
-      )
-      .then((res) => {
-        if (res.status === 200) {
-          // Update the sortedArr state after deleting the task
-          setSortedArr((prevArr) =>
-            prevArr.filter((task) => task._id !== taskId)
-          );
-          window.location.reload();
-        } else {
-          Promise.reject();
-        }
-      })
-      .catch((err) => alert(err));
+  const handleDeleteTask = async (taskId) => {
+    try {
+      const res = await axios.delete(
+        `https://bend1.onrender.com/studentRoute/delete-task/${id}/${taskId}`
+      );
+      if (res.status === 200) {
+        setSortedArr((prevArr) =>
+          prevArr.filter((task) => task._id !== taskId)
+        );
+      } else {
+        setError(`Failed to delete task: ${res.status}`);
+      }
+    } catch (err) {
+      setError(`Error deleting task: ${err.message}`);
+    }
   };
 
   const handleEditTask = (taskId) => {
-    navigate("/home/" + id + "/" + taskId);
-
+    navigate(`/home/${id}/${taskId}`);
     document.getElementById("implement").scrollIntoView({ behavior: "smooth" });
   };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   return (
     <div className="containers" id="today">
@@ -110,9 +95,7 @@ const Today = () => {
             </button>
             <button
               className="btn-edit"
-              onClick={() => {
-                handleEditTask(task.taskId);
-              }}
+              onClick={() => handleEditTask(task.taskId)}
             >
               Edit
             </button>
