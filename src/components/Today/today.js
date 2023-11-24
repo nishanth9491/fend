@@ -11,6 +11,7 @@ const Today = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sortedArr, setSortedArr] = useState([]);
+  const [loadingDelete, setLoadingDelete] = useState(false); // Added loading state for delete operation
   const currentTime = new Date().toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
@@ -52,9 +53,12 @@ const Today = () => {
 
   const handleDeleteTask = async (taskId) => {
     try {
+      setLoadingDelete(true); // Set loading state to true during deletion
+
       const res = await axios.delete(
         `https://bend1.onrender.com/studentRoute/delete-task/${id}/${taskId}`
       );
+
       if (res.status === 200) {
         setSortedArr((prevArr) =>
           prevArr.filter((task) => task._id !== taskId)
@@ -64,6 +68,8 @@ const Today = () => {
       }
     } catch (err) {
       setError(`Error deleting task: ${err.message}`);
+    } finally {
+      setLoadingDelete(false); // Set loading state back to false after deletion (success or failure)
     }
   };
 
@@ -98,8 +104,9 @@ const Today = () => {
             <button
               className="btn-delt"
               onClick={() => handleDeleteTask(task.taskId)}
+              disabled={loadingDelete} // Disable the delete button during loading
             >
-              Delete
+              {loadingDelete ? "Deleting..." : "Delete"}
             </button>
             <button
               className="btn-edit"
