@@ -136,7 +136,7 @@ function Implement() {
       console.error("Error:", error);
       alert("An error occurred. Please check the console for details.");
     }
-    window.location.reload();
+    // window.location.reload();
   };
   const [taskId, settaskId] = useState(""); // Add this line to declare taskId state
 
@@ -197,7 +197,10 @@ function Implement() {
 
     return axios
       .delete(
-        "https://bend1.onrender.com/studentRoute/delete-task/" + id + "/" + taskd
+        "https://bend1.onrender.com/studentRoute/delete-task/" +
+          id +
+          "/" +
+          taskd
       )
       .then((res) => {
         if (res.status === 200) {
@@ -234,6 +237,38 @@ function Implement() {
       submitbtn();
     }
   };
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          "https://bend1.onrender.com/studentRoute/update-student/" + id
+        );
+        console.log(res.data);
+
+        if (res.status === 200) {
+          // Filter tasks based on the selected date
+          const tasksForSelectedDate = res.data.task.filter(
+            (task) => task.TaskDate === selectDate.toDate().toDateString()
+          );
+
+          // Set the sortedArr state with the filtered tasks
+          setSortedArr(tasksForSelectedDate);
+
+          setLoading(false); // Set loading to false once data is fetched
+        } else {
+          console.error("Failed to fetch tasks");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred. Please check the console for details.");
+      }
+    };
+
+    fetchData();
+  }, [id, selectDate]);
 
   return (
     <div id="implement">
@@ -418,20 +453,27 @@ function Implement() {
           </form>
         </div>
         <div className="sideCar flex flex-col items-center">
-          {sortedArr.map((task, index) => (
-            <React.Fragment key={index}>
-              <Link className="dotH">
-                <p>{task.TaskTime}</p>
-              </Link>
-              <div className="lineH">
-                <p>{task.TaskName}</p>
-              </div>
-            </React.Fragment>
-          ))}
-          <Link className="dotH"></Link>
-          <p>
-            <span style={{ color: "red" }}>{sortedArr.length} Tasks</span> today
-          </p>
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <>
+              {sortedArr.map((task, index) => (
+                <React.Fragment key={index}>
+                  <Link className="dotH">
+                    <p>{task.TaskTime}</p>
+                  </Link>
+                  <div className="lineH">
+                    <p>{task.TaskName}</p>
+                  </div>
+                </React.Fragment>
+              ))}
+              <Link className="dotH"></Link>
+              <p>
+                <span style={{ color: "red" }}>{sortedArr.length} Tasks</span>{" "}
+                today
+              </p>
+            </>
+          )}
         </div>
       </div>
     </div>
