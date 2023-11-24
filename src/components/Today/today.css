@@ -1,111 +1,128 @@
+/* today.css */
 
-body{
+body {
     color: antiquewhite;
-}
-#intro{
+  }
+  
+  #intro {
     height: calc(100vh - 5rem);
-
     width: 100vw;
     max-width: 75rem;
     overflow: hidden;
     background-color: antiquewhite;
-    
- 
-}
-.containers{
+  }
+  
+  .containers {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-bottom: 5rem;
     margin-top: 3rem;
-}
-
-.container{
+  }
+  
+  .container {
     margin-left: 4px;
-}
- 
-
-
-.dot{
-width: 1rem;
-height: 1rem;
-border-radius: 50px;
-background-color: rgb(255, 255, 255);
-}
-
-.dot::before {  
-       content: attr(data-content);
-        position: relative;
-        top: -1px;
-        right: 10rem;
-        color: rgb(0, 0, 0);
-}
-
-
-.innerdiv{
+  }
+  
+  .dot {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50px;
+    background-color: rgb(255, 255, 255);
+  }
+  
+  .dot::before {
+    content: attr(data-content);
+    position: relative;
+    top: -1px;
+    right: 10rem;
+    color: rgb(0, 0, 0);
+  }
+  
+  .innerdiv {
     width: 100px;
     position: relative;
-    left: 5rem;
+    left: 8rem;
     text-align: center;
     color: aliceblue;
-}
-.dot{
+  }
+  
+  .dot {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 1rem; /* Adjust the height of the line as needed */
-}
-.innerdi{
+  }
+  
+  .innerdi {
     position: relative;
     top: 0px;
     left: 3rem;
-}
-
-
-
-.line {
+  }
+  
+  .line {
     width: 2px;
     height: 20vh; /* Adjust the height as needed */
     background-color: #565049;
-    
-}
-
-.line {
-    
+  }
+  
+  .line {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 10rem; /* Adjust the height of the line as needed */
   }
   
-
-
-.content{
+  .content {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-}
-
-.todayText{
+  }
+  
+  .todayText {
     margin: 1rem;
     margin-bottom: 1.5rem;
-}
-.content{
+  }
+  
+  .content {
     width: 10rem;
     display: flex;
     align-items: center;
     margin: 0rem auto;
     justify-content: space-between;
-}
-
-.btn-edit{
+  }
+  
+  .btn-edit {
     position: relative;
     left: 10rem;
-}
-.btn-delt{
+  }
+  
+  .btn-delt {
     position: relative;
     left: 20rem;
-}
-
+  }
+  
+  .late {
+    background-color: rgb(77, 77, 77);
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .dot::before {
+      right: 5rem;
+    }
+  
+    .innerdiv {
+      left: 6rem;
+    }
+  
+    .btn-edit{
+        left: 4rem;
+    }
+    .btn-delt {
+      left: -5rem;
+    }
+  }
+  
