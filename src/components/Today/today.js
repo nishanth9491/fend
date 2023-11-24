@@ -11,8 +11,13 @@ const Today = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sortedArr, setSortedArr] = useState([]);
+  const currentTime = new Date().toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   useEffect(() => {
+    console.log(currentTime);
     const fetchData = async () => {
       try {
         const res = await axios.get(
@@ -80,7 +85,10 @@ const Today = () => {
       <h1 className="todayText">Today</h1>
       {sortedArr.map((task, index) => (
         <React.Fragment key={index}>
-          <div className="dot" data-n={""}>
+          <div
+            className={`dot ${currentTime > task.TaskTime ? "late" : ""}`}
+            data-n={""}
+          >
             <div className="innerdi">{task.TaskTime}</div>
           </div>
           <div className="line" data-n={""}>
