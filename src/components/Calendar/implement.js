@@ -389,7 +389,7 @@ function Implement() {
             schedule for {selectDate.toDate().toDateString()}
           </h1>
 
-          <p>{sortedArr.length} Tasks today</p>
+          <p>{sortedArr.length} Tasks {selectDate.toDate().toDateString()}</p>
           <h1 className="todayText">{selectDate.toDate().toDateString()}</h1>
           {/* <div className="sideCar">
             <Link className="dotH"></Link>
