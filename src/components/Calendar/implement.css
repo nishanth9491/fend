@@ -77,3 +77,37 @@
 
 
 
+
+@media (max-width: 768px) {
+    /* Styles for screens up to 768px wide (e.g., mobile) */
+    .calendr {
+      flex-direction: column;
+
+      gap: 20px;
+    }
+    .form{
+        margin-top: 100px;
+        color: white;
+    }
+    .taskMin{
+        color: black;
+    }
+    .inputTime{
+        color: black;
+    }
+    .dotH{
+        background-color: bisque;
+        color: rgb(212, 211, 211);
+    }
+    .lineH{
+        background-color: rgb(56, 56, 56);
+        color: rgb(0, 0, 0);
+    }
+    .okbab{
+        
+   display: none;
+    }
+  
+  
+    /* Add more styles as needed for mobile layout */
+  }
