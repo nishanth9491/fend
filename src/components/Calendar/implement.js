@@ -470,7 +470,7 @@ function Implement() {
               <Link className="dotH"></Link>
               <p>
                 <span style={{ color: "red" }}>{sortedArr.length} Tasks</span>{" "}
-                today
+{selectDate.toDate().toDateString()}
               </p>
             </>
           )}
