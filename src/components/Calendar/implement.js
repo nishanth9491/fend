@@ -58,6 +58,7 @@ function Implement() {
 
   useEffect(() => {
     // Get the current time using dayjs
+
     const now = dayjs();
     const currentTimeFormatted = now.format("HH:mm");
     setCurrentTime(currentTimeFormatted);
@@ -311,87 +312,90 @@ function Implement() {
           })}
         />
       </div>
-      <div className="calendr flex w-1/2 mx-auto  gap-10  items-center">
-        <div className="w-70 h-70 ">
-          <div className="flex justify-between">
-            <h1 className="font-semibold">
-              {months[today.month()]},{today.year()}
-            </h1>
-            <div className="flex item-center gap-5">
-              <GrFormPrevious
-                className="w-5 h-5 cursor-pointer"
-                onClick={() => {
-                  setToday(today.month(today.month() - 1));
-                }}
-              />
-              <h1
-                className="cursor-pointer"
-                onClick={() => {
-                  setToday(currentDate);
-                }}
-              >
-                Today
+      <div className="container">
+        <div className="calendr flex w-1/2 mx-auto  gap-10  items-center">
+          <div className="w-70 h-70 ">
+            <div className="flex justify-between">
+              <h1 className="font-semibold">
+                {months[today.month()]},{today.year()}
               </h1>
-              <GrFormNext
-                className="w-5 h-5 cursor-pointer"
-                onClick={() => {
-                  setToday(today.month(today.month() + 1));
-                }}
-              />
+              <div className="flex item-center gap-5">
+                <GrFormPrevious
+                  className="w-5 h-5 cursor-pointer"
+                  onClick={() => {
+                    setToday(today.month(today.month() - 1));
+                  }}
+                />
+                <h1
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setToday(currentDate);
+                  }}
+                >
+                  Today
+                </h1>
+                <GrFormNext
+                  className="w-5 h-5 cursor-pointer"
+                  onClick={() => {
+                    setToday(today.month(today.month() + 1));
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="w-full grid grid-cols-7 text-sm text-gray-500">
+              {days.map((day, index) => {
+                return (
+                  <h1
+                    key={index}
+                    className="h-14 grid place-content-center text-sm"
+                  >
+                    {day}
+                  </h1>
+                );
+              })}
+            </div>
+
+            <div className="w-full grid grid-cols-7">
+              {generateDate(today.month(), today.year()).map(
+                ({ date, currentMonth, today }, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="h-14 border-t grid place-content-center text-sm"
+                    >
+                      <h1
+                        className={cn(
+                          currentMonth ? "" : "text-gray-400",
+                          today ? "bg-red-600 text-white " : "",
+                          selectDate.toDate().toDateString() ===
+                            date.toDate().toDateString()
+                            ? "bg-black text-white"
+                            : "",
+                          "h-10 w-10 grid place-content-center rounded-full hover:bg-black hover:text-white transition-all cursor-pointer"
+                        )}
+                        onClick={() => {
+                          setSelectDate(date);
+                        }}
+                      >
+                        {date.date()}
+                      </h1>
+                    </div>
+                  );
+                }
+              )}
             </div>
           </div>
+          <div className="form of input h-96  px-5">
+            <h1 className="font-semibold">
+              schedule for {selectDate.toDate().toDateString()}
+            </h1>
 
-          <div className="w-full grid grid-cols-7 text-sm text-gray-500">
-            {days.map((day, index) => {
-              return (
-                <h1
-                  key={index}
-                  className="h-14 grid place-content-center text-sm"
-                >
-                  {day}
-                </h1>
-              );
-            })}
-          </div>
-
-          <div className="w-full grid grid-cols-7">
-            {generateDate(today.month(), today.year()).map(
-              ({ date, currentMonth, today }, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="h-14 border-t grid place-content-center text-sm"
-                  >
-                    <h1
-                      className={cn(
-                        currentMonth ? "" : "text-gray-400",
-                        today ? "bg-red-600 text-white " : "",
-                        selectDate.toDate().toDateString() ===
-                          date.toDate().toDateString()
-                          ? "bg-black text-white"
-                          : "",
-                        "h-10 w-10 grid place-content-center rounded-full hover:bg-black hover:text-white transition-all cursor-pointer"
-                      )}
-                      onClick={() => {
-                        setSelectDate(date);
-                      }}
-                    >
-                      {date.date()}
-                    </h1>
-                  </div>
-                );
-              }
-            )}
-          </div>
-        </div>
-        <div className="h-96  px-5">
-          <h1 className="font-semibold">
-            schedule for {selectDate.toDate().toDateString()}
-          </h1>
-
-          <p>{sortedArr.length} Tasks {selectDate.toDate().toDateString()}</p>
-          <h1 className="todayText">{selectDate.toDate().toDateString()}</h1>
-          {/* <div className="sideCar">
+            <p>
+              {sortedArr.length} Tasks on {selectDate.toDate().toDateString()}
+            </p>
+            <h1 className="todayText">{selectDate.toDate().toDateString()}</h1>
+            {/* <div className="sideCar">
             <Link className="dotH"></Link>
             {renderTextAfterLineH(0)}
 
@@ -406,74 +410,79 @@ function Implement() {
             {renderTextAfterLineH(3)}
           </div> */}
 
-          {/* <Sidecar /> */}
+            {/* <Sidecar /> */}
 
-          <form onSubmit={handleSubmit}>
-            <input
-              type="time"
-              id="timeInput"
-              name="timeInput"
-              value={currentTime}
-              onChange={handleTimeChange}
-            />{" "}
-            <input
-              onChange={(e) => {
-                setMinutes(e.target.value);
-              }}
-              style={{ width: "7rem" }}
-              type="number"
-              className="text-center"
-              placeholder="minutes"
-            />{" "}
-            minutes
-            <br />
-            <br />
-            <input
-              defaultValue={inputValue}
-              type="text"
-              className="taskInput text-center rounded-full"
-              placeholder="Task Name"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-            />
-            <br />
-            <br />
-            <button
-              onClick={handleClick}
-              style={{
-                backgroundColor: "pink",
-                borderRadius: "2rem",
-                padding: "0.5rem 1.5rem",
-                marginTop: "0.25rem",
-              }}
-              type="submit"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-        <div className="sideCar flex flex-col items-center">
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            <>
-              {sortedArr.map((task, index) => (
-                <React.Fragment key={index}>
-                  <Link className="dotH">
-                    <p>{task.TaskTime}</p>
-                  </Link>
-                  <div className="lineH">
-                    <p>{task.TaskName}</p>
-                  </div>
-                </React.Fragment>
-              ))}
-              <Link className="dotH"></Link>
-              <p>
-                <span style={{ color: "red" }}>{sortedArr.length} Tasks</span>{" "}
-{selectDate.toDate().toDateString()}
-              </p>
-            </>
-          )}
+            <form onSubmit={handleSubmit}>
+              <input
+                type="time"
+                id="timeInput"
+                name="timeInput"
+                value={currentTime}
+                onChange={handleTimeChange}
+                className="inputTime"
+              />{" "}
+              <input
+                onChange={(e) => {
+                  setMinutes(e.target.value);
+                }}
+                style={{ width: "7rem" }}
+                type="number"
+                className="text-center taskMin"
+                placeholder="minutes"
+              />{" "}
+              <br />
+              minutes
+              <br />
+              <br />
+              <input
+                defaultValue={inputValue}
+                type="text"
+                className="taskInput text-center rounded-full"
+                placeholder="Task Name"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+              />
+              <br />
+              <br />
+              <button
+                onClick={handleClick}
+                style={{
+                  backgroundColor: "pink",
+                  borderRadius: "2rem",
+                  padding: "0.5rem 1.5rem",
+                  marginTop: "0.25rem",
+                }}
+                type="submit"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+          <div className="sideCar flex flex-col items-center">
+            {loading ? (
+              <p>Loading...</p>
+            ) : (
+              <>
+                {sortedArr.map((task, index) => (
+                  <React.Fragment key={index}>
+                    <Link className="dotH">
+                      <p>{task.TaskTime}</p>
+                    </Link>
+                    <div className="lineH">
+                      <p>{task.TaskName}</p>
+                    </div>
+                  </React.Fragment>
+                ))}
+                <Link className="dotH"></Link>
+                <p className="okbab">
+                  <span className="text-center okbab" style={{ color: "red" }}>
+                    {sortedArr.length} Tasks
+                  </span>{" "}
+                  on {selectDate.toDate().toDateString()}
+                </p>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
