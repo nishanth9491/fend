@@ -99,7 +99,7 @@ function Implement() {
     try {
       // Fetch the initial value
       const res = await axios.get(
-        "http://localhost:4005/studentRoute/update-student/" + id
+        "https://bend1.onrender.com/studentRoute/update-student/" + id
       );
       if (res.status === 200) {
         setInitialValue(res.data);
@@ -116,7 +116,7 @@ function Implement() {
 
         // Update the student data
         const updateRes = await axios.put(
-          "http://localhost:4005/studentRoute/update-student/" + id,
+          "https://bend1.onrender.com/studentRoute/update-student/" + id,
           data
         );
         if (updateRes.status === 200) {
@@ -147,7 +147,7 @@ function Implement() {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:4005/studentRoute/update-student/" + id
+          "https://bend1.onrender.com/studentRoute/update-student/" + id
         );
         console.log(res.data);
 
@@ -197,7 +197,7 @@ function Implement() {
 
     return axios
       .delete(
-        "http://localhost:4005/studentRoute/delete-task/" + id + "/" + taskd
+        "https://bend1.onrender.com/studentRoute/delete-task/" + id + "/" + taskd
       )
       .then((res) => {
         if (res.status === 200) {
